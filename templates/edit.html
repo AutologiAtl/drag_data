@@ -1,0 +1,389 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="row">
+    <div class="col-lg-11">
+        <table id="editable-table">
+            <thead>
+              <tr>
+                <th style="width: 8%;">POL</th>
+                <th style="width: 8%;">POD</th>
+                <th style="width: 8%;">LINER</th>
+                <th style="width: 8%;">TYPE</th>
+                <th style="width: 8%;">THC INCLUDED</th>
+                <th style="width: 8%;">THC NOT-INCLUDED</th>
+                <th style="width: 8%;">CNTR</th>
+                <th style="width: 8%;">CNTR Price($)</th>
+                <th style="width: 8%;">SEAL Currency</th>
+                <th style="width: 8%;">SEAL Amt</th>
+                <th style="width: 8%;">DOC FEE(Y)</th>
+                <th style="width: 8%;">FREE DAYS</th>
+                <th style="width: 8%;">VALIDITY FROM</th>
+                <th style="width: 8%;">VALIDITY TO</th>
+                <th class="no-border" style="width: 10%;">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in data %}
+              <tr>
+                <td contenteditable="true" data-field="field1" class="editable-cell" oninput="checkChanges(this)">{{ item.field1 }}</td>
+                <td contenteditable="true" data-field="field2" class="editable-cell" oninput="checkChanges(this)">{{ item.field2 }}</td>
+                <td contenteditable="true" data-field="field3" class="editable-cell" oninput="checkChanges(this)">{{ item.field3 }}</td>
+                <td contenteditable="true" data-field="field4" class="editable-cell" oninput="checkChanges(this)">{{ item.field4 }}</td>
+                <td contenteditable="true" data-field="field5" class="editable-cell" oninput="checkChanges(this)">{{ item.field5 }}</td>
+                <td contenteditable="true" data-field="field6" class="editable-cell" oninput="checkChanges(this)">{{ item.field6 }}</td>
+                <td contenteditable="true" data-field="field7" class="editable-cell" oninput="checkChanges(this)">{{ item.field7 }}</td>
+                <td contenteditable="true" data-field="field8" class="editable-cell" oninput="checkChanges(this)">{{ item.field8 }}</td>
+                <td contenteditable="true" data-field="field9" class="editable-cell" oninput="checkChanges(this)">{{ item.field9 }}</td>
+                <td contenteditable="true" data-field="field10" class="editable-cell" oninput="checkChanges(this)">{{ item.field10 }}</td>
+                <td contenteditable="true" data-field="field11" class="editable-cell" oninput="checkChanges(this)">{{ item.field11 }}</td>
+                <td contenteditable="true" data-field="field12" class="editable-cell" oninput="checkChanges(this)">{{ item.field12 }}</td>
+                <td contenteditable="true" data-field="field13" class="editable-cell" oninput="checkChanges(this)">{{ item.field13 }}</td>
+                <td contenteditable="true" data-field="field14" class="editable-cell" oninput="checkChanges(this)">{{ item.field14 }}</td>
+                  <td class="no-border" style="display: flex; align-items: center;">
+                      <button class="action-btn save-btn" style="display: none;" onclick="saveRow(this)"><i class="fa fa-check"></i></button>
+                      <button class="action-btn cancel-btn" style="display: none; color: red; border-bottom: none; outline: none;" onclick="cancelEdit(this)"><i class="fa fa-times"></i></button>
+                      <button class="action-btn edit-btn" style="display: none; color: green;" onclick="enableEdit(this)"><i class="fa fa-pencil"></i></button>
+                  </td>      
+                
+                <input type="hidden" name="pk" value="{{ item.pk }}">
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+    </div>
+    <div class="col-lg-1">
+        <button type="button"  class="btn btn-primary add-data" data-toggle="modal" data-target="#myModal">Add </button>
+
+    </div>
+
+    <div class="container mycon">
+      
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+            
+              <!-- Modal Header -->
+              
+              <!-- Modal body -->
+              <div class="modal-body">
+                <div class="container">
+                    <h2 class="new-en">NEW ENTRY</h2>
+                    <form action="#" method="post">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field1">LINER</label>
+                                    <select class="form-control" id="field1" name="field1" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field2">POL</label>
+                                    <select class="form-control" id="field2" name="field2" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field2">POD</label>
+                                    <select class="form-control" id="field2" name="field2" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field4">TYPE</label>
+                                    <select class="form-control" id="field4" name="field4" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field5">CONTAINER</label>
+                                    <select class="form-control" id="field5" name="field5" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field6">THC</label>
+                                    <select class="form-control" id="field6" name="field6" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field7">OCEAN FREIGHT($)</label>
+                                    <input type="text" class="form-control" id="field7" name="field7" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="field6">CURRENCY</label>
+                                    <select class="form-control" id="field6" name="field6" required>
+                                        <option value="">Select option</option>
+                                        <option value="option1">Option 1</option>
+                                        <option value="option2">Option 2</option>
+                                        <option value="option3">Option 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field9">SEAL</label>
+                                    <input type="text" class="form-control" id="field9" name="field9" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field10">DOC FEE(Y)</label>
+                                    <input type="text" class="form-control" id="field10" name="field10" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                  
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field12">FREE DAYS</label>
+                                    <input type="text" class="form-control" id="field12" name="field12" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field14">VALIDITY FROM</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="field14">VALIDITY TO</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- jQuery -->
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <!-- Bootstrap Datepicker JS -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+                <script>
+                    // Initialize datepicker for fields 3 and 14
+                    $(document).ready(function(){
+                        $('.datepicker').datepicker({
+                            format: 'yyyy-mm-dd'
+                        });
+                    });
+                </script>
+              </div>
+
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+</div>
+
+
+
+<script>
+  var originalValues = {}; // Object to store original values of cells
+
+  // Function to compare current values with original values
+  function checkChanges(cell) {
+    var row = cell.parentNode;
+    var index = row.rowIndex - 1; // Adjust for header row
+    var field = cell.getAttribute('data-field');
+    var currentValue = cell.tagName === 'INPUT' ? cell.value.trim() : cell.innerText.trim();
+
+    if (!(index in originalValues)) {
+      originalValues[index] = {};
+    }
+
+    // If the current value is different from the original value, show the save and cancel buttons
+    if (currentValue !== originalValues[index][field]) {
+      row.querySelector('.save-btn').style.display = 'inline-block';
+      row.querySelector('.cancel-btn').style.display = 'inline-block';
+      row.querySelector('.edit-btn').style.display = 'inline-block';
+    } else {
+      row.querySelector('.save-btn').style.display = 'none';
+      row.querySelector('.cancel-btn').style.display = 'none';
+      row.querySelector('.edit-btn').style.display = 'inline-block';
+    }
+
+    // Update the original value for the current cell
+    originalValues[index][field] = currentValue;
+
+    // Check if any cell's value has changed
+    var cells = row.querySelectorAll('.editable-cell');
+    var changed = false;
+    cells.forEach(function(cell) {
+      if (cell.innerText.trim() !== originalValues[index][cell.getAttribute('data-field')]) {
+        changed = true;
+      }
+    });
+
+    // Show edit button only if there are no changes
+  }
+
+  function saveRow(button) {
+    var row = button.parentNode.parentNode;
+    var pk = row.querySelector('input[name="pk"]').value;
+    var field1 = row.querySelector('[data-field="field1"]').innerText;
+    var field2 = row.querySelector('[data-field="field2"]').innerText;
+    var field3 = row.querySelector('[data-field="field3"]').innerText;
+    var field4 = row.querySelector('[data-field="field4"]').innerText;
+    var field5 = row.querySelector('[data-field="field5"]').innerText;
+    var field6 = row.querySelector('[data-field="field6"]').innerText;
+    var field7 = row.querySelector('[data-field="field7"]').innerText;
+    var field8 = row.querySelector('[data-field="field8"]').innerText;
+    var field9 = row.querySelector('[data-field="field9"]').innerText;
+    var field10 = row.querySelector('[data-field="field10"]').innerText;
+    var field11 = row.querySelector('[data-field="field11"]').innerText;
+    var field12 = row.querySelector('[data-field="field12"]').innerText;
+    var field13 = row.querySelector('[data-field="field13"]').innerText;
+    var field14 = row.querySelector('[data-field="field14"]').innerText;
+
+    $.ajax({
+      url: `/edit/${pk}/`,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        pk: pk,
+        field1: field1,
+        field2: field2,
+        field3: field3,
+        field4: field4,
+        field5: field5,
+        field6: field6,
+        field7: field7,
+        field8: field8,
+        field9: field9,
+        field10: field10,
+        field11: field11,
+        field12: field12,
+        field13: field13,
+        field14: field14,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(response) {
+        if (response.status === 'success') {
+          console.log('Row saved successfully.');
+          // Hide the save and cancel buttons after successful save
+          row.querySelector('.save-btn').style.display = 'none';
+          row.querySelector('.cancel-btn').style.display = 'none';
+          row.querySelector('.edit-btn').style.display = 'none';
+          // Update original values
+          var index = row.rowIndex - 1; // Adjust for header row
+          var cells = row.querySelectorAll('[data-field]');
+          cells.forEach(function(cell) {
+            var field = cell.getAttribute('data-field');
+            originalValues[index][field] = cell.tagName === 'INPUT' ? cell.value.trim() : cell.innerText.trim();
+          });
+        } else {
+          console.error('Failed to save row.');
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('Error saving row:', error);
+      }
+    });
+  }
+
+
+  
+
+  function cancelEdit(button) {
+    console.log("yess cancel data")
+    var row = button.parentNode.parentNode;
+    var index = row.rowIndex - 1; // Adjust for header row
+    var cells = row.querySelectorAll('[data-field]');
+    cells.forEach(function(cell) {
+      var field = cell.getAttribute('data-field');
+      cell.innerText = originalValues[index][field];
+    });
+    // Hide the save and cancel buttons
+    row.querySelector('.save-btn').style.display = 'none';
+    row.querySelector('.cancel-btn').style.display = 'none';
+    row.querySelector('.edit-btn').style.display = 'none';
+
+    // Show the edit button
+  }
+
+  function enableEdit(button) {
+    var row = button.parentNode.parentNode;
+    var cells = row.querySelectorAll('.editable-cell');
+    cells.forEach(function(cell) {
+      cell.contentEditable = true;
+    });
+    // Show the save and cancel buttons
+    row.querySelector('.save-btn').style.display = 'none';
+    row.querySelector('.cancel-btn').style.display = 'none';
+    row.querySelector('.edit-btn').style.display = 'none';
+    // Hide the edit button
+  }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    // Initialize datepicker for fields 3 and 14
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="board">
+            {% for category in categories %}
+            <div class="column" id="category_{{ category.id }}">
+                <div class="cust-cat">
+                    <div>
+                        <h5 class="mb-4 cust-d">{{ category.name }}</h5>
+
+                    </div>
+                    <div>
+                        <h5 class="cust-d">margin</h5>
+                    </div>
+                </div>
+                <div class="customer-list" id="customer-list-{{ category.id }}">
+                    {% for customer in category.customer_set.all %}
+                    <div class="customer" id="customer_{{ customer.id }}" data-category="{{ category.id }}">
+                        <div>
+                            <div class="customer-details">
+                                {{ customer.name }}</p>
+                                <i class="fa fa-bars"></i>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            setupDragAndDrop();
+
+            // Reapply drag and drop after page reloads
+            $(document).ajaxComplete(function() {
+                setupDragAndDrop();
+            });
+
+            function setupDragAndDrop() {
+                $(".customer").draggable({
+                    revert: 'invalid',
+                    helper: 'clone',
+                    start: function(event, ui) {
+                        $(this).addClass("dragged-customer");
+                    },
+                    stop: function(event, ui) {
+                        $(this).removeClass("dragged-customer");
+                    }
+                });
+
+                $(".column").droppable({
+                    accept: '.customer',
+                    drop: function (event, ui) {
+                        var customer_id = ui.draggable.attr("id").split("_")[1];
+                        var category_id = $(this).attr("id").split("_")[1];
+                        var old_category_id = ui.draggable.data("category");
+                        if (category_id != old_category_id) {
+                            $.ajax({
+                                url: '/move_customer/',
+                                type: 'POST',
+                                data: {
+                                    'customer_id': customer_id,
+                                    'category_id': category_id,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                },
+                                success: function () {
+                                    // Reload both the dropped customer's category and the dragged customer's category
+                                    var droppedCategoryContainer = "#customer-list-" + category_id;
+                                    var draggedCategoryContainer = "#customer-list-" + old_category_id;
+                                    $(droppedCategoryContainer).load(window.location.href + " " + droppedCategoryContainer, function() {
+                                        $("#" + customer_id).addClass("draggable-dropped");
+                                        setTimeout(function() {
+                                            $("#" + customer_id).removeClass("draggable-dropped");
+                                        }, 1000); // Remove class after 1 second
+                                    });
+                                    $(draggedCategoryContainer).load(window.location.href + " " + draggedCategoryContainer);
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // Update column height dynamically based on customer count
+                $(".column").each(function() {
+                    var category_id = $(this).attr("id").split("_")[1];
+                    updateColumnHeight(category_id);
+                });
+            }
+
+            function updateColumnHeight(category_id) {
+                var column = $("#category_" + category_id);
+                var customerList = $("#customer-list-" + category_id);
+                var customerCount = customerList.children().length;
+                var minHeight = 100;
+                var height = Math.max(minHeight, customerCount * 70); // Adjust the height based on the number of customers
+                column.css('min-height', height + 'px');
+            }
+        });
+    </script>
+{% endblock %}

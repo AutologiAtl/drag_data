@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beautiful Form</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Bootstrap Datepicker CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2; /* Light gray background */
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        border-radius: 15px; /* Rounded corners */
+        background-color: #ffffff; /* White background */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 11px;
+    }
+    .form-group select.form-control, .form-group input.form-control {
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        padding: 8px;
+        border: 1px solid #d1d1d1;
+    }
+    .form-group select.form-control:hover, .form-group input.form-control:hover {
+        border-color: #a1a1a1; /* Darker border color on hover */
+    }
+    .form-group button.btn-primary {
+        font-weight: bold;
+        font-size: 18px;
+        padding: 14px 28px;
+        border: none;
+        border-radius: 20px; /* Increased border radius */
+        background-color: #007bff; /* Blue button color */
+        color: #fff;
+        transition: background-color 0.3s ease;
+    }
+    .form-group button.btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .new-en{
+        color: blue;
+        font-size: revert;
+        font-weight: 700;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="new-en">NEW ENTRY</h2>
+    <form action="#" method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field1">LINER</label>
+                    <select class="form-control" id="field1" name="field1" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field2">POL</label>
+                    <select class="form-control" id="field2" name="field2" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field2">POD</label>
+                    <select class="form-control" id="field2" name="field2" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field4">TYPE</label>
+                    <select class="form-control" id="field4" name="field4" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field5">CONTAINER</label>
+                    <select class="form-control" id="field5" name="field5" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field6">THC</label>
+                    <select class="form-control" id="field6" name="field6" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field7">OCEAN FREIGHT($)</label>
+                    <input type="text" class="form-control" id="field7" name="field7" required>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="field6">CURRENCY</label>
+                    <select class="form-control" id="field6" name="field6" required>
+                        <option value="">Select option</option>
+                        <option value="option1">Option 1</option>
+                        <option value="option2">Option 2</option>
+                        <option value="option3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field9">SEAL</label>
+                    <input type="text" class="form-control" id="field9" name="field9" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field10">DOC FEE(Y)</label>
+                    <input type="text" class="form-control" id="field10" name="field10" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+  
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field12">FREE DAYS</label>
+                    <input type="text" class="form-control" id="field12" name="field12" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field14">VALIDITY FROM</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="field14">VALIDITY TO</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<!-- Bootstrap Datepicker JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    // Initialize datepicker for fields 3 and 14
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+</script>
+
+</body>
+</html>

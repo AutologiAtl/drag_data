@@ -1,0 +1,313 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag and Drop Customers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- Bootstrap Datepicker CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+        /* dragg and dropp css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #0052cc;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-size: 16px;
+        }
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-size: 16px;
+        }
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+        .column {
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: calc(25% - 40px); /* 25% of the screen width minus margins */
+            min-width: 250px;
+            max-width: 300px;
+            margin-bottom: 20px;
+            height: 261px;
+        }
+        .column h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .customer-list {
+            min-height: 100px;
+        }
+        .customer {
+            margin-bottom: 10px;
+            padding: 0px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .customer:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .customer-details {
+            font-size: 12px;
+            font-weight: normal;
+            color: #555;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .customer-details p {
+            margin: 5px 10px;
+        }
+        .draggable-dropped {
+            animation: border-glow 1s ease-out;
+            outline: 2px solid #007bff;
+        }
+        @keyframes border-glow {
+            0% {
+                outline-color: transparent;
+            }
+            50% {
+                outline-color: #007bff;
+            }
+            100% {
+                outline-color: transparent;
+            }
+        }
+        .footer {
+            background-color: #0052cc;
+            color: #fff;
+            text-align: center;
+            padding: 8px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 20px;
+            padding-bottom: 30px;
+        }
+        .cust-cat{
+            display: flex;
+            justify-content: space-between;
+        }
+        .cust-d{
+            font-size: small;
+            font-weight: 400;
+        }
+
+        /* dragg and dropp css end with footer and navbar */
+
+
+        /* table css start */
+
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    #editable-table {
+        border-collapse: collapse;
+        width: 88%;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        font-size: 11px;
+        margin-top: 20px;
+        margin-left: 18px;
+        font-weight: lighter;
+        font-family: math;
+    }
+    #editable-table th, #editable-table td {
+      text-align: center;
+      border: 1px solid #dddddd;
+    }
+    #editable-table th {
+        padding: 0px;
+        background-color: #eeeee2;
+        font-weight: 600;
+        color: #333333;
+    }
+    #editable-table td{
+        padding-top: 8px;
+        padding-bottom: 8px;
+        padding-left: 10px;
+        padding-right: 13px;
+    }
+    #editable-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    .save-btn {
+        display: none;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 0px 1px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 12px;
+        margin: 0px 2px;
+        cursor: pointer;
+        border-radius: 0px;
+        transition: background-color 0.3s ease;
+    }
+    .save-btn:hover {
+      background-color: #45a049;
+    }
+    .no-border {
+    border-left: none; /* Remove left border */
+    border-right: none; /* Remove right border */
+  }
+  .action-btn{
+    border-bottom: none;
+
+  }
+  .fa {
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: revert;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    border-left-style: outset;
+  }
+  .add-data{
+    margin-top: 20px;
+    position: relative;
+    right: 128px;
+  }
+
+  /* for add */
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 11px;
+    }
+    .form-group select.form-control, .form-group input.form-control {
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        padding: 8px;
+        border: 1px solid #d1d1d1;
+    }
+    .form-group select.form-control:hover, .form-group input.form-control:hover {
+        border-color: #a1a1a1; /* Darker border color on hover */
+    }
+    .form-group button.btn-primary {
+        font-weight: bold;
+        font-size: 15px;
+        padding: 8px 21px;
+        border: none;
+        border-radius: 11px;
+        background-color: #007bff;
+        color: #fff;
+        transition: background-color 0.3s ease;
+}
+    .form-group button.btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .new-en{
+        color: blue;
+        font-size: revert;
+        font-weight: 700;
+    }
+
+    .modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 145%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+}
+.modal-body {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0rem;
+}
+
+    /* form add end */
+ 
+
+        
+    </style>
+
+</head>
+<body>
+    <!-- Navbar or header -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Celerity Customer Board</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/table">Records</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Celerity</p>
+    </div>
+
+    
+</body>
+</html>
