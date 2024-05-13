@@ -25,5 +25,11 @@ urlpatterns = [
     path('index/', index, name='index'),
     path('table/', table_view, name='table_view'),
     path('edit/<int:pk>/', edit_row, name='edit_row'),
-    path("add/",add_formdata , name="add")
+    path("add/",add_formdata , name="add"),
+    path("save/",add_row , name = "save"),
+    path("submit-form/", addNewEntry , name='submit-form'),
+    path("search/",Search , name='Search'),
+    path("list/",list_hystory , name='list'),
+    path("login/",login_view, name="login"),
+    path('logout/',logout_view,name='logout')
 ]

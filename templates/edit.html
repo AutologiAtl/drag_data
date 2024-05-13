@@ -1,64 +1,134 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<button type="button"  class="btn btn-success add-data" data-toggle="modal" data-target="#myModal">Add </button>
 
+<form action="/table/" class="serch-form" method="POST">
+  {% csrf_token %}
 <div class="row">
-    <div class="col-lg-11">
+  <div class="col-md-2">
+    <div class="form-group">
+      <select class="form-control" id="field2" name="pols"  tabindex="2">
+        <option value="">Select POL*</option>
+        {% for l in ports_pol%}
+        <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+        {% endfor %}
+    </select>
+  </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <select class="form-control" id="field2" name="pods"  tabindex="3">
+        <option value="">Select POD*</option>
+        {% for l in ports_pod%}
+        <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+        {% endfor %}
+    </select>
+  </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <select class="form-control" id="field5" name="continers"  tabindex="5">
+        <option value="">Select CONTAINER*</option>
+        {% for l in container_sizes%}
+        <option value="{{l.Id}}">{{l.Size}}</option>
+        {% endfor %}
+    </select>
+  </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <select class="form-control" id="field1" name="liners"  tabindex="1" >
+        <option value="">Select LINER*</option>
+        {% for l in liners%}
+        <option value="{{l.Id}}">{{l.CompanyNameEng}}</option>
+        {% endfor %}
+       
+    </select>
+  </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary btn-search">Search</button>
+</div>
+<a href="/table" class="reset">Reset</a>
+</div>
+</form>
+
+<span id="error" style="color: red;visibility:hidden"></span><br>
+<!-- my_template.html -->
+
+
+
+
+<div class="message">
+  <!-- my_template.html -->
+<!-- my_template.html -->
+{% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+</div>
+
+
         <table id="editable-table">
             <thead>
               <tr>
-                <th style="width: 8%;">POL</th>
-                <th style="width: 8%;">POD</th>
-                <th style="width: 8%;">LINER</th>
-                <th style="width: 8%;">TYPE</th>
-                <th style="width: 8%;">THC INCLUDED</th>
-                <th style="width: 8%;">THC NOT-INCLUDED</th>
-                <th style="width: 8%;">CNTR</th>
-                <th style="width: 8%;">CNTR Price($)</th>
-                <th style="width: 8%;">SEAL Currency</th>
-                <th style="width: 8%;">SEAL Amt</th>
-                <th style="width: 8%;">DOC FEE(Y)</th>
-                <th style="width: 8%;">FREE DAYS</th>
-                <th style="width: 8%;">VALIDITY FROM</th>
-                <th style="width: 8%;">VALIDITY TO</th>
-                <th class="no-border" style="width: 10%;">ACTION</th>
+                <th style="width: 7%;">POL</th>
+                <th style="width: 7%;">POD</th>
+                <th style="width: 20%;">Liner</th>
+                <th style="width: 5%;">Type</th>
+                <th style="width: 13%;">CNTR</th>
+                <th style="width: 5%;">CNTR Price ($)</th>
+                <th style="width: 5%;">THC</th>
+                <th style="width: 5%;">Seal Amt</th>
+                <th style="width: 5%;">Doc Fee (¥)</th>
+                <th style="width: 5%;">Fee Days</th>
+                <th style="width: 7%;">Validity From</th>
+                <th style="width: 7%;">Validity To</th>
+                
+                <th class="no-border" style="width: 9%;">Action</th>
+                
               </tr>
             </thead>
             <tbody>
-              {% for item in data %}
-              <tr>
-                <td contenteditable="true" data-field="field1" class="editable-cell" oninput="checkChanges(this)">{{ item.field1 }}</td>
-                <td contenteditable="true" data-field="field2" class="editable-cell" oninput="checkChanges(this)">{{ item.field2 }}</td>
-                <td contenteditable="true" data-field="field3" class="editable-cell" oninput="checkChanges(this)">{{ item.field3 }}</td>
-                <td contenteditable="true" data-field="field4" class="editable-cell" oninput="checkChanges(this)">{{ item.field4 }}</td>
-                <td contenteditable="true" data-field="field5" class="editable-cell" oninput="checkChanges(this)">{{ item.field5 }}</td>
-                <td contenteditable="true" data-field="field6" class="editable-cell" oninput="checkChanges(this)">{{ item.field6 }}</td>
-                <td contenteditable="true" data-field="field7" class="editable-cell" oninput="checkChanges(this)">{{ item.field7 }}</td>
-                <td contenteditable="true" data-field="field8" class="editable-cell" oninput="checkChanges(this)">{{ item.field8 }}</td>
-                <td contenteditable="true" data-field="field9" class="editable-cell" oninput="checkChanges(this)">{{ item.field9 }}</td>
-                <td contenteditable="true" data-field="field10" class="editable-cell" oninput="checkChanges(this)">{{ item.field10 }}</td>
-                <td contenteditable="true" data-field="field11" class="editable-cell" oninput="checkChanges(this)">{{ item.field11 }}</td>
-                <td contenteditable="true" data-field="field12" class="editable-cell" oninput="checkChanges(this)">{{ item.field12 }}</td>
-                <td contenteditable="true" data-field="field13" class="editable-cell" oninput="checkChanges(this)">{{ item.field13 }}</td>
-                <td contenteditable="true" data-field="field14" class="editable-cell" oninput="checkChanges(this)">{{ item.field14 }}</td>
-                  <td class="no-border" style="display: flex; align-items: center;">
-                      <button class="action-btn save-btn" style="display: none;" onclick="saveRow(this)"><i class="fa fa-check"></i></button>
-                      <button class="action-btn cancel-btn" style="display: none; color: red; border-bottom: none; outline: none;" onclick="cancelEdit(this)"><i class="fa fa-times"></i></button>
-                      <button class="action-btn edit-btn" style="display: none; color: green;" onclick="enableEdit(this)"><i class="fa fa-pencil"></i></button>
-                  </td>      
+                {% for item in data %}
+                   
+                <tr>
+                    <td data-field="field1" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.polid.id }}">{{ item.polid.portnameeng }}</td>
+                    <td data-field="field2" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.podid.id }}">{{ item.podid.portnamejpn }}</td>
+                    <td data-field="field3" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcompanyid.id }}">{{ item.shippingcompanyid.companynameeng }}</td>
+                    <td data-field="field4" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)">{{ item.type }}</td>
+                    <td data-field="field7" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcontainersizeid.id }}">{{ item.shippingcontainersizeid.size }}</td>
+                    <td data-field="field9" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.oceanfreight }}</td>
+                    <td data-field="field5" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.thc }}</td>
+                    <td data-field="field10" class="editable-cell not-change {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.sealamount }}</td>
+                    <td data-field="field11" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.docfee }}</td>
+                    <td data-field="field12" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true">{{ item.freedays }}</td>
+                    <td data-field="field13" class="editable-cell editable-cell1 {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityfrom|date:"d-m-Y" }}</td>
+                    <td data-field="field14" class="editable-cell editable-cell1 {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityto|date:"d-m-Y" }}</td>
+                    <td class="no-border">
+                      <button class="action-btn save-btn" id="save-btn" style="display: none;background-color: white;" onclick="enableEdit(this)" data-toggle="tooltip" data-placement="top" title="Add"><i class="fa fa-plus"></i></button>
+
+                      <button class="action-btn cancel-btn" style="display: none; color: red; border-bottom: none; outline: none;background-color: white;" onclick="cancelEdit(this)" data-toggle="tooltip" data-placement="top" title="Cancel"><i class="fa fa-times"></i></button>
+                      
+                      <button class="action-btn edit-btn" style="display: none; color: green;background-color: white;" onclick="editData(this)" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i></button>
+                    </td>      
+                    <input type="hidden" name="pk" value="{{ item.pk }}">
+                </tr>
+                {% endfor %}
                 
-                <input type="hidden" name="pk" value="{{ item.pk }}">
-              </tr>
-              {% endfor %}
             </tbody>
           </table>
 
-    </div>
-    <div class="col-lg-1">
-        <button type="button"  class="btn btn-primary add-data" data-toggle="modal" data-target="#myModal">Add </button>
 
-    </div>
 
     <div class="container mycon">
       
@@ -68,43 +138,47 @@
             <div class="modal-content">
             
               <!-- Modal Header -->
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">NEW ENTRY</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" style="position: relative;bottom: 16px;">&times;</span>
+                </button>
+              </div>
               
               <!-- Modal body -->
               <div class="modal-body">
                 <div class="container">
-                    <h2 class="new-en">NEW ENTRY</h2>
-                    <form action="#" method="post">
+                    <form action="{% url 'submit-form' %}" method="post">
+                      {% csrf_token %}
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field1">LINER</label>
-                                    <select class="form-control" id="field1" name="field1" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
+                                    <select class="form-control" id="field1" name="liner" required tabindex="1" >
+                                        <option value="">Select LINER*</option>
+                                        {% for l in liners%}
+                                        <option value="{{l.Id}}">{{l.CompanyNameEng}}</option>
+                                        {% endfor %}
+                                       
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field2">POL</label>
-                                    <select class="form-control" id="field2" name="field2" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
+                                    <select class="form-control" id="field2" name="pol" required tabindex="2">
+                                        <option value="">Select POL*</option>
+                                        {% for l in ports_pol%}
+                                        <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field2">POD</label>
-                                    <select class="form-control" id="field2" name="field2" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
+                                    <select class="form-control" id="field2" name="pod" required tabindex="3">
+                                        <option value="">Select POD*</option>
+                                        {% for l in ports_pod%}
+                                        <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -112,82 +186,81 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field4">TYPE</label>
-                                    <select class="form-control" id="field4" name="field4" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
+                                    <select class="form-control" id="field4" name="type" required tabindex="4">
+                                        <option value="">Select TYPE*</option>
+                                        <option value="CONTRACT">CONTRACT</option>
+                                        <option value="SPOT">SPOT</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field5">CONTAINER</label>
-                                    <select class="form-control" id="field5" name="field5" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
+                                    <select class="form-control" id="field5" name="continer" required tabindex="5">
+                                        <option value="">Select CONTAINER*</option>
+                                        {% for l in container_sizes%}
+                                        <option value="{{l.Id}}">{{l.Size}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="field6">THC</label>
-                                    <select class="form-control" id="field6" name="field6" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                    </select>
+                                    <input type="text" placeholder="THC*" class="form-control initial-space-input" id="field9" name="thc" required tabindex="7">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input type="text" placeholder=" OCEAN FREIGHT($)*" class="form-control initial-space-input" id="field9" name="ocean" required tabindex="7">
+                                    </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="field7">OCEAN FREIGHT($)</label>
-                                    <input type="text" class="form-control" id="field7" name="field7" required>
+                                    <input type="text" class="form-control initial-space-input" id="field7" name="seal" required tabindex="8" placeholder=" SEAL AMOUNT*">
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="field6">CURRENCY</label>
-                                    <select class="form-control" id="field6" name="field6" required>
-                                        <option value="">Select option</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                    </select>
-                                </div>
+                                
                             </div>
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="field9">SEAL</label>
-                                    <input type="text" class="form-control" id="field9" name="field9" required>
-                                </div>
+                              <div class="form-group">
+                              <select class="form-control" id="field5" name="currency" required tabindex="5">
+                                <option value="">Select Currency*</option>
+                                {% for l in currencies%}
+                                <option value="{{l.Id}}">{{l.CurrencyDesc}}</option>
+                                {% endfor %}
+                            </select>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="field10">DOC FEE(Y)</label>
-                                    <input type="text" class="form-control" id="field10" name="field10" required>
-                                </div>
+
                             </div>
+                 
+                         
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" placeholder=" DOC FEE (¥)*" class="form-control initial-space-input" maxlength="4" id="field9" name="doc" required tabindex="10">
+                                </div>
+                             </div>
+                          
+                        
+                        </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="text" placeholder=" FREE DAYS*" class="form-control initial-space-input" id="field9" name="freedays" maxlength="2" required tabindex="11">
+                            </div>
+                    </div>
+                </div>
+                    
                         <div class="row">
                   
+                           
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="field12">FREE DAYS</label>
-                                    <input type="text" class="form-control" id="field12" name="field12" required>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="field14">VALIDITY FROM</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                                        <input type="text" class="form-control datepicker" id="field14" name="fromdate" required tabindex="12" placeholder="VALIDITY FROM*">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
@@ -196,9 +269,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label for="field14">VALIDITY TO</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control datepicker" id="field14" name="field14" required>
+                                        <input type="text" class="form-control datepicker" id="field14" name="todate" required tabindex="13" placeholder="VALIDITY TO*">
                                         <div class="input-group-append">
                                             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                         </div>
@@ -207,7 +279,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary btn-add">Submit</button>
+                            <button type="button" class="btn btn-secondary cross" data-dismiss="modal">Close</button>
+
                         </div>
                     </form>
                 </div>
@@ -236,6 +310,48 @@
 </div>
 
 
+<script>
+    document.querySelectorAll('.editable-cell1').forEach(function(cell) {
+        cell.addEventListener('input', function() {
+            validateDate(this.textContent);
+        });
+    });
+    
+    function validateDate(date) {
+        const datePattern = /^\d{2}-\d{2}-\d{4}$/;
+        const errorElement = document.getElementById('error');
+    
+        // Check if the date matches the format YYYY-MM-DD
+        if (!datePattern.test(date)) {
+            errorElement.textContent = 'Invalid date format. Please enter date in YYYY-MM-DD format.';
+            return;
+        }
+    
+        // Validate the date itself
+        const parts = date.split('-');
+        const day = parseInt(parts[0]);
+        const month = parseInt(parts[1]);
+        const year = parseInt(parts[2]);
+    
+        // Check if the month is valid (between 1 and 12)
+        if (month < 1 || month > 12) {
+            errorElement.textContent = 'Invalid month. Please enter a month between 01 and 12.';
+            return;
+        }
+    
+        // Check if the day is valid for the given month and year
+        const daysInMonth = new Date(year, month, 0).getDate();
+        if (day < 1 || day > daysInMonth) {
+            errorElement.textContent = 'Invalid day. Please enter a valid day for the selected month and year.';
+            return;
+        }
+    
+        // If the date is valid, clear the error message
+        errorElement.textContent = '';
+    }
+    </script>
+    
+
 
 <script>
   var originalValues = {}; // Object to store original values of cells
@@ -246,6 +362,7 @@
     var index = row.rowIndex - 1; // Adjust for header row
     var field = cell.getAttribute('data-field');
     var currentValue = cell.tagName === 'INPUT' ? cell.value.trim() : cell.innerText.trim();
+
 
     if (!(index in originalValues)) {
       originalValues[index] = {};
@@ -277,18 +394,11 @@
     // Show edit button only if there are no changes
   }
 
-  function saveRow(button) {
+  function editData(button) {
     var row = button.parentNode.parentNode;
     var pk = row.querySelector('input[name="pk"]').value;
-    var field1 = row.querySelector('[data-field="field1"]').innerText;
-    var field2 = row.querySelector('[data-field="field2"]').innerText;
-    var field3 = row.querySelector('[data-field="field3"]').innerText;
-    var field4 = row.querySelector('[data-field="field4"]').innerText;
-    var field5 = row.querySelector('[data-field="field5"]').innerText;
-    var field6 = row.querySelector('[data-field="field6"]').innerText;
-    var field7 = row.querySelector('[data-field="field7"]').innerText;
-    var field8 = row.querySelector('[data-field="field8"]').innerText;
     var field9 = row.querySelector('[data-field="field9"]').innerText;
+    var field5 = row.querySelector('[data-field="field5"]').innerText;
     var field10 = row.querySelector('[data-field="field10"]').innerText;
     var field11 = row.querySelector('[data-field="field11"]').innerText;
     var field12 = row.querySelector('[data-field="field12"]').innerText;
@@ -301,14 +411,8 @@
       dataType: 'json',
       data: {
         pk: pk,
-        field1: field1,
-        field2: field2,
-        field3: field3,
-        field4: field4,
+  
         field5: field5,
-        field6: field6,
-        field7: field7,
-        field8: field8,
         field9: field9,
         field10: field10,
         field11: field11,
@@ -319,7 +423,8 @@
       },
       success: function(response) {
         if (response.status === 'success') {
-          console.log('Row saved successfully.');
+          console.log('Row edited successfully.');
+          alert("Edited successfully");
           // Hide the save and cancel buttons after successful save
           row.querySelector('.save-btn').style.display = 'none';
           row.querySelector('.cancel-btn').style.display = 'none';
@@ -331,8 +436,10 @@
             var field = cell.getAttribute('data-field');
             originalValues[index][field] = cell.tagName === 'INPUT' ? cell.value.trim() : cell.innerText.trim();
           });
-        } else {
+        } 
+        if (response.status === 'fail') {
           console.error('Failed to save row.');
+          alert("Faild to Edit Data")
         }
       },
       error: function(xhr, status, error) {
@@ -343,16 +450,10 @@
 
 
   
-
   function cancelEdit(button) {
+    window.location.href = '/table';
     console.log("yess cancel data")
-    var row = button.parentNode.parentNode;
-    var index = row.rowIndex - 1; // Adjust for header row
-    var cells = row.querySelectorAll('[data-field]');
-    cells.forEach(function(cell) {
-      var field = cell.getAttribute('data-field');
-      cell.innerText = originalValues[index][field];
-    });
+ 
     // Hide the save and cancel buttons
     row.querySelector('.save-btn').style.display = 'none';
     row.querySelector('.cancel-btn').style.display = 'none';
@@ -361,18 +462,77 @@
     // Show the edit button
   }
 
+
+
   function enableEdit(button) {
+    console.log("yess work")
     var row = button.parentNode.parentNode;
-    var cells = row.querySelectorAll('.editable-cell');
-    cells.forEach(function(cell) {
-      cell.contentEditable = true;
+    var pk = row.querySelector('input[name="pk"]').value;
+    var polr =row.querySelector('[data-field="field1"]').getAttribute('data-id');
+    var podr = row.querySelector('[data-field="field2"]').getAttribute('data-id');
+    var linerr = row.querySelector('[data-field="field3"]').getAttribute('data-id');
+    var typer = row.querySelector('[data-field="field4"]').innerText;
+    var cntrr = row.querySelector('[data-field="field7"]').getAttribute('data-id');
+    var cntrpricer = row.querySelector('[data-field="field9"]').innerText;
+    var thcr = row.querySelector('[data-field="field5"]').innerText;
+    var sealamtr = row.querySelector('[data-field="field10"]').innerText;
+    var docfeer = row.querySelector('[data-field="field11"]').innerText;
+    var freedays = row.querySelector('[data-field="field12"]').innerText;
+    var validityfromr = row.querySelector('[data-field="field13"]').innerText;
+    var validitytor = row.querySelector('[data-field="field14"]').innerText;
+
+    console.log("yess 1")
+
+    $.ajax({
+      url: `/save/`,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        pk: pk,
+        polr: polr,
+        podr: podr,
+        linerr: linerr,
+        typer: typer,
+        cntrr: cntrr,
+        cntrpricer: cntrpricer,
+        thcr: thcr,
+        sealamtr: sealamtr,
+        docfeer: docfeer,
+        freedays: freedays,
+        validityfromr: validityfromr,
+        validitytor: validitytor,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      success: function(response) {
+        console.log("response check",response)
+        if (response.status === 'success') {
+          console.log('Row saved successfully.');
+          alert("Successfully save Data")
+          window.location.href = '/table';
+          // Hide the save and cancel buttons after successful save
+          row.querySelector('.save-btn').style.display = 'none';
+          row.querySelector('.cancel-btn').style.display = 'none';
+          row.querySelector('.edit-btn').style.display = 'none';
+          // Update original values
+          var index = row.rowIndex - 1; // Adjust for header row
+          var cells = row.querySelectorAll('[data-field]');
+          cells.forEach(function(cell) {
+            var field = cell.getAttribute('data-field');
+            originalValues[index][field] = cell.tagName === 'INPUT' ? cell.value.trim() : cell.innerText.trim();
+          });
+        } 
+        if (response.status === 'fail') {
+          console.error('Failed to save row.');
+          alert("Faild to save Data")
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error('Error saving row:', error);
+      }
     });
-    // Show the save and cancel buttons
-    row.querySelector('.save-btn').style.display = 'none';
-    row.querySelector('.cancel-btn').style.display = 'none';
-    row.querySelector('.edit-btn').style.display = 'none';
-    // Hide the edit button
   }
+
+
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -385,5 +545,25 @@
             format: 'yyyy-mm-dd'
         });
     });
+
+    $('select').on('focus', function() {
+            $(this).siblings('div.dropdown-menu').show();
+          });
+</script>
+
+
+
+<script>
+  // Custom JavaScript to close alerts automatically after 5 seconds
+  $(document).ready(function(){
+      $(".alert").delay(5000).slideUp(300, function(){
+          $(this).alert('close');
+      });
+  });
+</script>
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 </script>
 {% endblock %}

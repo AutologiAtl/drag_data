@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 
     <style>
@@ -149,7 +151,7 @@
         .cust-d2{
             padding-right: 4px;
             padding-top: 2px;
-            font-size: 11px;
+            font-weight: normal;
         }
 
         /* dragg and dropp css end with footer and navbar */
@@ -163,40 +165,46 @@
     }
     #editable-table {
         border-collapse: collapse;
-        width: 88%;
+        width: 97%;
         background-color: #ffffff;
         border: 1px solid #dddddd;
         font-size: 11px;
-        margin-top: 20px;
+        margin-top: -29px;
         margin-left: 18px;
         font-weight: lighter;
         font-family: math;
     }
-    #editable-table th, #editable-table td {
-      text-align: center;
+    /* #editable-table th, #editable-table td {
       border: 1px solid #dddddd;
-    }
+    } */
+    
     #editable-table th {
         padding-left: 10px;
-        padding-right: 8px;
+        padding-right: 10px;
         background-color: #eeeee2;
-        font-weight: 600;
+        font-weight: bold;
         color: #333333;
+        font-size: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10px;
     }
     #editable-table td{
         padding-top: 3px;
         padding-bottom: 0px;
         padding-left: 10px;
         padding-right: 13px;
+        font-weight: bold;
+        font-size: 10px;
+
+
     }
     #editable-table tbody tr:hover {
       background-color: #f9f9f9;
     }
     .save-btn {
         display: none;
-        background-color: #4CAF50;
         border: none;
-        color: white;
+        color: green;
         padding: 0px 1px;
         text-align: center;
         text-decoration: none;
@@ -206,25 +214,20 @@
         border-radius: 0px;
         transition: background-color 0.3s ease;
     }
-    .save-btn:hover {
-      background-color: #45a049;
-    }
+
     .no-border {
-    border-left: none; /* Remove left border */
-    border-right: none; /* Remove right border */
+        display: flex;
   }
   .action-btn{
-    border-bottom: none;
-
-  }
+    border: none;
+    margin: 3px;
+}
   .fa {
     display: inline-block;
     font: normal normal normal 14px / 1 FontAwesome;
     font-size: revert;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    border-left-style: outset;
-    opacity: 0.5;
 
   }
   .fas{
@@ -236,9 +239,9 @@
   .add-data{
     position: relative;
     /* float: right; */
-    left: 1062px;
+    left: 1199px;
     font-size: 10px;
-    top: 5px;
+    top: 28px;
   }
 
   /* for add */
@@ -262,13 +265,13 @@
         border-radius: 4px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         font-size: 11px;
-        padding: 1px;
+        padding: 5px;
         border: 1px solid #d1d1d1;
     }
     .form-group select.form-control:hover, .form-group input.form-control:hover {
         border-color: #a1a1a1; /* Darker border color on hover */
     }
-    .form-group button.btn-primary {
+    .btn-add{
         font-weight: bold;
         font-size: 15px;
         padding: 8px 21px;
@@ -280,6 +283,10 @@
         position: relative;
         left: 494px;
 }
+.btn-search{
+    display: flex;
+
+}
     .form-group button.btn-primary:hover {
         background-color: #0056b3; /* Darker blue on hover */
     }
@@ -287,6 +294,9 @@
         color: blue;
         font-size: revert;
         font-weight: 700;
+        background-color: peachpuff;
+        padding-top: 5px;
+        font-family: sans-serif;
     }
 
     .modal-content {
@@ -309,6 +319,29 @@
         flex: 1 1 auto;
         padding: 0rem;
     }
+    .modal-header {
+        display: flex;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        -ms-flex-pack: justify;
+        justify-content: center;
+        padding: 1rem 1rem;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: calc(.3rem - 1px);
+        border-top-right-radius: calc(.3rem - 1px);
+        background-color: beige;
+        margin-bottom: 15px;
+        font-family: system-ui;
+        height: 41px;
+    }
+
+    .modal-title {
+        margin-bottom: 0;
+        line-height: 0.5;
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
 
     /* form add end */
 
@@ -330,22 +363,104 @@
         font-weight: 700;
         color: slategrey;
     }
-    .category-search{
-        font-size: 10px;
-        width: 201px;
-        margin-bottom: 10px;
+    .not-edit{
+        background-color: rgb(25 24 24 / 11%);
+        text-align: left;
     }
+    .right-align{
+        text-align: right;
+    }
+    .middle-align{
+        text-align: center;
+    }
+    .on-edit{
+        box-shadow: 0 0 5px 2px papayawhip;
+    }
+    .btn-search{
+        font-size: 10px;
+    }
+    .serch-form{
+        margin-left: 18px;
+    }
+    .cross{
+        font-weight: bold;
+        font-size: 15px;
+        padding: 8px 21px;
+        border: none;
+        border-radius: 11px;
+        color: #fff;
+        transition: background-color 0.3s ease;
+        position: relative;
+        left: 309px;
+    }
+    .cust-mnt{
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        line-height: 40px;
+        font-size: small;
+        font-family: system-ui;
+        font-weight: 700;
+        color: slategrey;
+    }
+    .val-check{
+        font-size: x-small;
+        font-weight: lighter;
+        font-family: sans-serif;
+    }
+    .reset{
+        font-size: 14px;
+        font-family: sans-serif;
+        margin-left: 10px;
+        margin-top: 4px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .reset:hover {
+        text-decoration: none;
+        }
     .nav-link.active {
         font-weight: bold;
-    }
+    }    
     .change-foooter{
         font-weight: 100;
     }
-</style>
+    .initial-space-input{
+        padding: 15px;
+    }
+    /* alert css */
+    .myAlert-top{
+    position: fixed;
+    top: 5px; 
+    left:2%;
+    width: 96%;
+}
 
- 
+.myAlert-bottom{
+    position: fixed;
+    bottom: 5px;
+    left:2%;
+    width: 96%;
+}
 
-        
+div.fullscreen {
+  position: absolute;
+  width:100%; 
+  height:960px; 
+  top: 0; 
+  left: 0; 
+  background-color: lightblue;
+}
+
+.alert{
+    display: none;
+}
+/* alert css end */
+
+.not-edit,.on-edit{
+    border: 1px solid #dddddd;
+    
+
+}
     </style>
 
 </head>
@@ -375,10 +490,10 @@
             </div>
         </div>
     </nav>
-
     <div class="cust-mnt container-fluid">
-        Customer Category Management
+        Customer Pricing Management
     </div>
+
 
     <div class="content">
         {% block content %}
@@ -387,30 +502,40 @@
 
     <div class="footer">
         <p>© 2024 Autologistics Japan Ltd., <br><span class="change-foooter">Powered By: Celerity Infoservices LLP.</span></p>
-    </div>
 
+    </div>
 
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Get the current URL path
             var currentPath = window.location.pathname;
     
-            // Get all navbar links
             var navLinks = document.querySelectorAll('.nav-link');
     
-            // Loop through each navbar link
             navLinks.forEach(function(link) {
-                // Check if the link's href matches the current URL path
                 if (link.getAttribute('href') === currentPath) {
-                    // Add the 'active' class to highlight the link
                     link.classList.add('active');
                 }
             });
         });
+    </script>    
+
+    <script>
+        function myAlertTop(){
+            $(".myAlert-top").show();
+            setTimeout(function(){
+                $(".myAlert-top").hide(); 
+            }, 2000);
+            }
+
+        function myAlertBottom(){
+        $(".myAlert-bottom").show();
+        setTimeout(function(){
+            $(".myAlert-bottom").hide(); 
+        }, 2000);
+        }
+
     </script>
-    
-    <!-- CSS for the active class -->
-    
 </body>
+
 </html>

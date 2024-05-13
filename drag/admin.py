@@ -5,4 +5,5 @@ from django.contrib import admin
 from drag.models import *
 admin.site.register(Category)
 admin.site.register(Customer)
-admin.site.register(YourModel)
+admin.site.register(Freight_Rate)
+admin.site.register(Freightrate)

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome for icons -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* dragg and dropp css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #0052cc;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-size: 16px;
+        }
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-size: 16px;
+        }
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            justify-content: space-between;
+        }
+        .column{
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: calc(25% - 40px); /* 25% of the screen width minus margins */
+            min-width: 250px;
+            max-width: 300px;
+            margin-bottom: 20px;
+            height: 357px;
+            overflow-x: auto;
+            overflow-y: auto;
+            
+        }
+        .column h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .customer-list {
+            min-height: 100px;
+        }
+        .customer {
+            margin-bottom: 10px;
+            padding: 0px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+            color: #333;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .customer:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        .customer-details {
+            font-size: 12px;
+            font-weight: normal;
+            color: #555;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .customer-details p {
+            margin: 5px 10px;
+        }
+        .draggable-dropped {
+            animation: border-glow 1s ease-out;
+            outline: 2px solid #007bff;
+        }
+        @keyframes border-glow {
+            0% {
+                outline-color: transparent;
+            }
+            50% {
+                outline-color: #007bff;
+            }
+            100% {
+                outline-color: transparent;
+            }
+        }
+        .footer {
+            background-color: #0052cc;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: -4px;
+            font-size: 11px;
+            padding-top: 10px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .cust-cat{
+            display: flex;
+            justify-content: space-between;
+            height: 21px;
+            width: 202px;
+            font-family: Arial, ui-sans-serif;
+            font-size: 105px;
+            background-color: antiquewhite;
+            margin-bottom: 10px;
+        }
+        .cust-d{
+            font-size: 11px;
+            font-weight: lighter;
+            line-height: inherit;
+            display: flex;
+        }
+        .cust-d1{
+            font-size: 11px;
+            font-weight: bold;
+            padding-left: 4px;
+            padding-top: 2px;
+        }
+        .cust-d2{
+            padding-right: 4px;
+            padding-top: 2px;
+            font-weight: normal;
+        }
+
+        /* dragg and dropp css end with footer and navbar */
+
+
+        /* table css start */
+
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    #editable-table {
+        border-collapse: collapse;
+        width: 97%;
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        font-size: 11px;
+        margin-left: 18px;
+        font-weight: lighter;
+        font-family: math;
+    }
+    #editable-table th, #editable-table td {
+      text-align: center;
+      border: 1px solid #dddddd;
+    }
+    
+    #editable-table th {
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #eeeee2;
+        font-weight: bold;
+        color: #333333;
+        font-size: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10px;
+    }
+    #editable-table td{
+        padding-top: 3px;
+        padding-bottom: 0px;
+        padding-left: 10px;
+        padding-right: 13px;
+    }
+    #editable-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+    .save-btn {
+        display: none;
+        border: none;
+        color: green;
+        padding: 0px 1px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 12px;
+        margin: 0px 2px;
+        cursor: pointer;
+        border-radius: 0px;
+        transition: background-color 0.3s ease;
+    }
+
+    .no-border {
+        display: flex;
+  }
+  .action-btn{
+    border: none;
+    margin: 3px;
+}
+  .fa {
+    display: inline-block;
+    font: normal normal normal 14px / 1 FontAwesome;
+    font-size: revert;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+
+  }
+  .fas{
+    font-weight: bold;
+    padding-right: 4px;
+    opacity: 208px;
+    color: #9999;
+  }
+  .add-data{
+    position: relative;
+    /* float: right; */
+    left: 1199px;
+    font-size: 10px;
+    top: 28px;
+  }
+
+  /* for add */
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 11px;
+    }
+    .form-group select.form-control, .form-group input.form-control {
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        font-size: 11px;
+        padding: 1px;
+        border: 1px solid #d1d1d1;
+    }
+    .form-group select.form-control:hover, .form-group input.form-control:hover {
+        border-color: #a1a1a1; /* Darker border color on hover */
+    }
+    .btn-add{
+        font-weight: bold;
+        font-size: 15px;
+        padding: 8px 21px;
+        border: none;
+        border-radius: 11px;
+        background-color: #007bff;
+        color: #fff;
+        transition: background-color 0.3s ease;
+        position: relative;
+        left: 494px;
+}
+.btn-search{
+    display: flex;
+
+}
+    .form-group button.btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .new-en{
+        color: blue;
+        font-size: revert;
+        font-weight: 700;
+        background-color: peachpuff;
+        padding-top: 5px;
+        font-family: sans-serif;
+    }
+
+    .modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 127%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    }
+    .modal-body {
+        position: relative;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 0rem;
+    }
+    .modal-header {
+        display: flex;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        -ms-flex-pack: justify;
+        justify-content: center;
+        padding: 1rem 1rem;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: calc(.3rem - 1px);
+        border-top-right-radius: calc(.3rem - 1px);
+        background-color: beige;
+        margin-bottom: 15px;
+        font-family: system-ui;
+        height: 41px;
+    }
+
+    .modal-title {
+        margin-bottom: 0;
+        line-height: 0.5;
+        font-size: 18px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+
+    /* form add end */
+
+    .expired {
+    color: red;
+        /* Add any other styles you want for expired cells */
+    }
+    .message{
+        padding-left: 5px;
+        width: 280px;
+    }
+    .cust-mnt{
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        line-height: 40px;
+        font-size: small;
+        font-family: system-ui;
+        font-weight: 700;
+        color: slategrey;
+    }
+    .not-edit{
+        background-color: rgb(25 24 24 / 11%);
+    }
+    .on-edit{
+        box-shadow: 0 0 5px 2px papayawhip;
+    }
+    .btn-search{
+        font-size: 10px;
+    }
+    .serch-form{
+        margin-left: 18px;
+    }
+    .cross{
+        font-weight: bold;
+        font-size: 15px;
+        padding: 8px 21px;
+        border: none;
+        border-radius: 11px;
+        color: #fff;
+        transition: background-color 0.3s ease;
+        position: relative;
+        left: 309px;
+    }
+    .cust-mnt{
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        line-height: 40px;
+        font-size: small;
+        font-family: system-ui;
+        font-weight: 700;
+        color: slategrey;
+    }
+    .val-check{
+        font-size: x-small;
+        font-weight: lighter;
+        font-family: sans-serif;
+    }
+    .reset{
+        font-size: 14px;
+        font-family: sans-serif;
+        margin-left: 10px;
+        margin-top: 4px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .reset:hover {
+        text-decoration: none;
+        }
+    .nav-link.active {
+        font-weight: bold;
+    }    
+    .pagination{
+        margin-top: 6px;
+    }
+    .s-list{
+        font-size: 11px;
+    }
+    .s-btn{
+        font-size: x-small;
+    }
+    .footer {
+            background-color: #0052cc;
+            color: #fff;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: -4px;
+            font-size: 11px;
+            padding-top: 10px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .change-foooter{
+        font-weight: 100;
+    }
+    .serch-form{
+        margin-left: 18px;
+        margin-top: 8px;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Freight Rate Module</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/index/' %}active{% endif %}" href="/index">Manage Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/table/' %}active{% endif %}" href="/table">Manage Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/list/' %}active{% endif %}" href="/list">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link log {% if request.path == '/logout/' %}active{% endif %}" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="cust-mnt container-fluid">
+        Customer Pricing History
+    </div>
+    <form action="/list/" class="serch-form" method="POST">
+        {% csrf_token %}
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <select class="form-control" id="field2" name="pols1"  tabindex="2">
+              <option value="">Select POL*</option>
+              {% for l in ports_pol%}
+              <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+              {% endfor %}
+          </select>
+        </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <select class="form-control" id="field2" name="pods1"  tabindex="3">
+              <option value="">Select POD*</option>
+              {% for l in ports_pod%}
+              <option value="{{l.Id}}">{{l.PortNameEng}}</option>
+              {% endfor %}
+          </select>
+        </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <select class="form-control" id="field5" name="continers1"  tabindex="5">
+              <option value="">Select CONTAINER*</option>
+              {% for l in container_sizes%}
+              <option value="{{l.Id}}">{{l.Size}}</option>
+              {% endfor %}
+          </select>
+        </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <select class="form-control" id="field1" name="liners1"  tabindex="1" >
+              <option value="">Select LINER*</option>
+              {% for l in liners%}
+              <option value="{{l.Id}}">{{l.CompanyNameEng}}</option>
+              {% endfor %}
+             
+          </select>
+        </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-search">Search</button>
+      </div>
+      <a href="/list" class="reset">Reset</a>
+      </div>
+      </form>
+
+    <table id="editable-table">
+        <thead>
+          <tr>
+            <th style="width: 7%;">POL</th>
+                <th style="width: 7%;">POD</th>
+                <th style="width: 20%;">Liner</th>
+                <th style="width: 5%;">Type</th>
+                <th style="width: 13%;">CNTR</th>
+                <th style="width: 5%;">CNTR Price ($)</th>
+                <th style="width: 5%;">THC</th>
+                <th style="width: 5%;">Seal Amt</th>
+                <th style="width: 5%;">Doc Fee (¥)</th>
+                <th style="width: 5%;">Fee Days</th>
+                <th style="width: 7%;">Validity From</th>
+                <th style="width: 7%;">Validity To</th>
+                        
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.polid.portnameeng }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.podid.portnamejpn }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.shippingcompanyid.companynameeng }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.type }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.shippingcontainersizeid.size }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.oceanfreight }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.thc }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.sealamount }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.docfee }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.freedays }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.validityfrom|date:"d-m-Y" }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.validityto|date:"d-m-Y" }}</td>
+
+                <input type="hidden" name="pk" value="{{ item.pk }}">
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if data.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                        <span class="sr-only">First</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ data.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for num in data.paginator.page_range %}
+                <li class="page-item {% if num == data.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if data.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ data.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ data.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                        <span class="sr-only">Last</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    
+    <div class="footer">
+        <p>© 2024 Autologistics Japan Ltd., <br><span class="change-foooter">Powered By: Celerity Infoservices LLP.</span></p>
+    </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var currentPath = window.location.pathname;
+    
+            var navLinks = document.querySelectorAll('.nav-link');
+    
+            navLinks.forEach(function(link) {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script> 
+</body>
+</html>

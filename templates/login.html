@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <style>
+    body, html {
+        height:100%;
+        background: #1c1e21;
+        overflow-x: hidden;
+        font-family: 'Dosis', sans-serif;
+    }
+
+    .btn-larger {
+        padding: 15px 40px !important;
+        border:2px solid #F7CA18 !important;
+        border-radius: 0px !important;
+        text-transform: uppercase;
+        font-family: 'Dosis', sans-serif;
+        font-size: 18px;
+        font-weight: 300;
+        color: #F7CA18;
+        background-color: transparent;
+        -webkit-transition: all .6s;
+        -moz-transition: all .6s;
+        transition: all .6s;
+    }
+
+    .btn-larger:hover, .btn-larger:focus, .btn-larger:active, .btn-larger.active, .open .dropdown-toggle.btn-larger {
+        border-color: #F7CA18;
+        color: #fff;
+        background-color: #F7CA18;
+    }
+
+    .btn-larger:active, .btn-larger.active, .open .dropdown-toggle.btn-larger {
+        background-image: none;
+    }
+
+    .btn-larger.disabled, .btn-larger[disabled], fieldset[disabled] .btn-larger, .btn-larger.disabled:hover, .btn-larger[disabled]:hover, fieldset[disabled] .btn-larger:hover, .btn-larger.disabled:focus, .btn-larger[disabled]:focus, fieldset[disabled] .btn-larger:focus, .btn-larger.disabled:active, .btn-larger[disabled]:active, fieldset[disabled] .btn-larger:active, .btn-larger.disabled.active, .btn-larger[disabled].active, fieldset[disabled] .btn-larger.active {
+        border-color: #AEA8D3;
+        background-color: #AEA8D3;
+    }
+
+    .btn-larger .badge {
+        color: #AEA8D3;
+        background-color: #fff;
+    }
+
+    #form {
+        color: #fff;
+        background-attachment: scroll;
+        background: #1c1e21 url("/static/img/ship_back.png"); 
+        background-repeat: none;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        min-height:100%;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+        color: #FFF;
+    }
+
+    .form-group input, .form-group textarea {
+        padding: 10px;
+    }
+
+    .form-group input.form-control {
+        height: auto;
+        background-color: rgba(237, 235, 250, 0.1);
+        color: #FFF;
+    }
+
+    .form-control {
+        border-radius: 0;
+        border: 1px solid #fff;
+    }
+
+    .form-control:focus {
+        border-color: #F7CA18;
+        box-shadow: none;
+    }
+
+    ::-webkit-input-placeholder {
+        text-transform: uppercase;
+        font-family: 'Dosis', sans-serif;
+        font-weight: 700;
+        color: #bbb;
+    }
+
+    #login .form-group label {
+        position: relative;
+        -webkit-transform: translateY(35px);
+        -ms-transform: translateY(35px);
+        transform: translateY(35px);
+        left: 10px;
+        top: 0px;
+        color: rgba(255, 255, 255, 0.5);
+        -webkit-transition: all 0.25s ease;
+        transition: all 0.25s ease;
+        -webkit-backface-visibility: hidden;
+        pointer-events: none;
+        font-size: 12px;
+        font-weight: 300
+    }
+
+    #login .form-group label .req {
+        margin: 2px;
+        color: #F7CA18;
+    }
+
+    #login .form-group label.active {
+        -webkit-transform: translateY(0px);
+        -ms-transform: translateY(0px);
+        transform: translateY(0px);
+        left: 2px;
+        font-size: 12px;
+    }
+
+    #login .form-group label.active .req {
+        opacity: 0;
+    }
+
+    .mrgn-30-top {
+        margin-top: 30px
+    }
+    #userform {
+    background: rgba(0,0,0,0.8); /* Black background with 80% opacity */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px; /* Added max-width for better presentation on larger screens */
+}
+.form-set{
+    margin-top: 160px;
+    margin-left: -80px;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div id="form">
+    <div class="container">
+      <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-md-8 form-set col-md-offset-2">
+        <div id="userform">
+          <ul class="nav nav-tabs nav-justified" role="tablist">
+            <li class="active"><a href="#login"  role="tab" data-toggle="tab">Log in</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active in" id="login">
+              <h2 class="text-uppercase text-center"> Log in</h2>
+              <form id="login" method="post" action="/login/">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label> Your Email<span class="req">*</span> </label>
+                  <input type="text" class="form-control" name="lemail" id="email" required data-validation-required-message="Please enter your name address." autocomplete="off">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <label> Password<span class="req">*</span> </label>
+                  <input type="password" class="form-control" name="lpassword" id="password" required data-validation-required-message="Please enter your password" autocomplete="off">
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="mrgn-30-top">
+                  <button type="submit" class="btn btn-larger btn-block">Log in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>
