@@ -173,7 +173,6 @@ def table_view(request):
                 shippingcontainersizeid=OuterRef('shippingcontainersizeid'),
             ).order_by('-id').values('id')[:1]
 
-
             print("yess running")
 
 
@@ -194,7 +193,17 @@ def table_view(request):
             print("current_date",current_date)
             record.has_expired = record_date < current_date
 
-        context['data'] = latest_records
+        try:
+            paginator = Paginator(latest_records, 10)
+            page = request.GET.get('page')
+            data = paginator.get_page(page)
+            context['data'] = data
+        except PageNotAnInteger:
+            data = paginator.page(1)
+            context['data'] = data
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+            context['data'] = data
         return render(request, 'edit.html', context)
 
     except pyodbc.Error as e:
@@ -395,7 +404,7 @@ def list_hystory(request):
     try:
 
         # Check if data exists in cache
-        if 'table_data' in cache:
+        if 'table_data1' in cache:
             data = cache.get('table_data1')
             context = data
 
@@ -478,15 +487,28 @@ def list_hystory(request):
             record.has_expired = record_date < current_date
 
         try:
-            context['data'] = latest_records
-            latest_records = latest_records.order_by('-id')
-            paginator = Paginator(latest_records, 5)
+            if 'table_data2' in cache:
+                start_time = time.time()  # Record start time
+                data = cache.get('table_data2')
+                context = data
+                print("this is running")
+                end_time = time.time()    # Record end time
+                execution_time = end_time - start_time
+                print("Execution time table2:", execution_time, "seconds")
+            else:
+                print("this is running else")
+                a = cache.set('table_data2', context, timeout=3600) # Cache for 1 hour
+
+            paginator = Paginator(latest_records, 10)
             page = request.GET.get('page')
-            items = paginator.page(page)
+            data = paginator.get_page(page)
+            context['data'] = data
         except PageNotAnInteger:
-            items = paginator.page(1)
+            data = paginator.page(1)
+            context['data'] = data
         except EmptyPage:
-            items = paginator.page(paginator.num_pages)
+            data = paginator.page(paginator.num_pages)
+            context['data'] = data
         return render(request, 'hystory.html', context)
     except pyodbc.Error as e:
         print(f"Error connecting to SQL Server: {e}")
