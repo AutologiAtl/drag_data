@@ -96,12 +96,10 @@ def Search(request):
 def table_view(request):
     context = {}
     try:
-
         # Check if data exists in cache
         if 'table_data' in cache:
             data = cache.get('table_data')
             context = data
-
         else:
             conn = pyodbc.connect(conn_str)
             cursor = conn.cursor()
@@ -180,9 +178,9 @@ def table_view(request):
 
 
             # Query to retrieve the latest record for each unique name
-            latest_records = Freightrate.objects.filter(
-                id__in=Subquery(latest_records_subquery)
-            )
+            # latest_records = Freightrate.objects.filter(
+            #     id__in=Subquery(latest_records_subquery)
+            # )
 
             latest_records = Freightrate.objects.filter(
             id__in=Subquery(latest_records_subquery)
@@ -191,7 +189,9 @@ def table_view(request):
         current_date = date.today()
         for record in latest_records:
             print("record check",record)
-            record_date = record.validityfrom.date()
+            record_date = record.validityto.date()
+            print("record_date",record_date)
+            print("current_date",current_date)
             record.has_expired = record_date < current_date
 
         context['data'] = latest_records
@@ -240,6 +240,7 @@ def add_row(request):
         pol = request.POST.get('polr')
         pod = request.POST.get('podr')
         liner = request.POST.get('linerr')
+        currency = request.POST.get("currency")
         typer = request.POST.get('typer')
         cntr = request.POST.get('cntrr')
         cntr_price = request.POST.get('cntrpricer')
@@ -265,10 +266,11 @@ def add_row(request):
         print("pod id",pod)
         print("cntr id",cntr)
         print("liner id",liner)
+        print("currency check ",currency)
 
         pol = Port.objects.get(id = pol)
         pod = Port.objects.get(id = pod)
-        currecy_id = Currencymst.objects.get(id = 2)
+        currecy_id = Currencymst.objects.get(id = currency)
         containerid = Shippingcontainersize.objects.get(id = cntr)
         liner = Shippingcompany.objects.get(id = liner)
         print('currecy_id obj',currecy_id)
@@ -472,16 +474,14 @@ def list_hystory(request):
         current_date = date.today()
         for record in latest_records:
             print("record check",record)
-            record_date = record.validityfrom.date()
+            record_date = record.validityto.date()
             record.has_expired = record_date < current_date
 
-        context['data'] = latest_records
-        latest_records = latest_records.order_by('-id')
-
-        paginator = Paginator(latest_records, 5)
-
-        page = request.GET.get('page')
         try:
+            context['data'] = latest_records
+            latest_records = latest_records.order_by('-id')
+            paginator = Paginator(latest_records, 5)
+            page = request.GET.get('page')
             items = paginator.page(page)
         except PageNotAnInteger:
             items = paginator.page(1)
@@ -490,3 +490,23 @@ def list_hystory(request):
         return render(request, 'hystory.html', context)
     except pyodbc.Error as e:
         print(f"Error connecting to SQL Server: {e}")
+
+
+import time
+import pyodbc
+
+def runquery(request):
+    start_time = time.time()  # Record start time
+    conn = pyodbc.connect(conn_str)
+    cursor = conn.cursor()
+    companies = Freightrate.objects.all()
+    print("check @@@@", companies)
+    
+    end_time = time.time()    # Record end time
+    execution_time = end_time - start_time
+    print("Execution time:", execution_time, "seconds")
+    
+    return redirect("/po")
+
+
+    

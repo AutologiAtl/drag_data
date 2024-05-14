@@ -31,5 +31,6 @@ urlpatterns = [
     path("search/",Search , name='Search'),
     path("list/",list_hystory , name='list'),
     path("login/",login_view, name="login"),
-    path('logout/',logout_view,name='logout')
+    path('logout/',logout_view,name='logout'),
+    path("runquery/",runquery, name="runquery")
 ]

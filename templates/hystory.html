@@ -439,6 +439,7 @@
     </style>
 </head>
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">Freight Rate Module</a>
@@ -545,7 +546,7 @@
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.shippingcontainersizeid.size }}</td>
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.oceanfreight }}</td>
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.thc }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.sealamount }}</td>
+                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.currencyid.currencysymbol }} {{ item.sealamount }}</td>
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.docfee }}</td>
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.freedays }}</td>
                 <td class="{% if item.has_expired %}expired{% endif %}">{{ item.validityfrom|date:"d-m-Y" }}</td>
@@ -559,41 +560,21 @@
 
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            {% if data.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="First">
-                        <span aria-hidden="true">&laquo;&laquo;</span>
-                        <span class="sr-only">First</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ data.previous_page_number }}" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-            {% endif %}
-            {% for num in data.paginator.page_range %}
-                <li class="page-item {% if num == data.number %}active{% endif %}">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% endfor %}
-            {% if data.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ data.next_page_number }}" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ data.paginator.num_pages }}" aria-label="Last">
-                        <span aria-hidden="true">&raquo;&raquo;</span>
-                        <span class="sr-only">Last</span>
-                    </a>
-                </li>
-            {% endif %}
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
         </ul>
-    </nav>
+      </nav>
+
+
+
+
     
     <div class="footer">
         <p>© 2024 Autologistics Japan Ltd., <br><span class="change-foooter">Powered By: Celerity Infoservices LLP.</span></p>

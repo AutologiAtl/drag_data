@@ -83,18 +83,18 @@
               <tr>
                 <th style="width: 7%;">POL</th>
                 <th style="width: 7%;">POD</th>
-                <th style="width: 20%;">Liner</th>
+                <th style="width: 23%;">Liner</th>
                 <th style="width: 5%;">Type</th>
                 <th style="width: 13%;">CNTR</th>
                 <th style="width: 5%;">CNTR Price ($)</th>
                 <th style="width: 5%;">THC</th>
-                <th style="width: 5%;">Seal Amt</th>
+                <th style="width: 6%;">Seal Amt</th>
                 <th style="width: 5%;">Doc Fee (¥)</th>
                 <th style="width: 5%;">Fee Days</th>
                 <th style="width: 7%;">Validity From</th>
                 <th style="width: 7%;">Validity To</th>
                 
-                <th class="no-border" style="width: 9%;">Action</th>
+                <th class="no-border" style="width: 4%;">Action</th>
                 
               </tr>
             </thead>
@@ -109,7 +109,10 @@
                     <td data-field="field7" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcontainersizeid.id }}">{{ item.shippingcontainersizeid.size }}</td>
                     <td data-field="field9" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.oceanfreight }}</td>
                     <td data-field="field5" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.thc }}</td>
-                    <td data-field="field10" class="editable-cell not-change {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.sealamount }}</td>
+                    <td oninput="checkChanges(this)"><table><tr><td  style="width: 10%;" data-field="currency" data-id="{{ item.currencyid.id }}">{{ item.currencyid.currencysymbol }}</td>
+                      <td data-field="field10" style="margin: 2px;width: 90%;" class="editable-cell chnage-colm not-change {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.sealamount }}</td>
+                    </tr></table></td>
+                     
                     <td data-field="field11" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.docfee }}</td>
                     <td data-field="field12" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true">{{ item.freedays }}</td>
                     <td data-field="field13" class="editable-cell editable-cell1 {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityfrom|date:"d-m-Y" }}</td>
@@ -471,6 +474,7 @@
     var polr =row.querySelector('[data-field="field1"]').getAttribute('data-id');
     var podr = row.querySelector('[data-field="field2"]').getAttribute('data-id');
     var linerr = row.querySelector('[data-field="field3"]').getAttribute('data-id');
+    var currency = row.querySelector('[data-field="currency"]').getAttribute('data-id');
     var typer = row.querySelector('[data-field="field4"]').innerText;
     var cntrr = row.querySelector('[data-field="field7"]').getAttribute('data-id');
     var cntrpricer = row.querySelector('[data-field="field9"]').innerText;
@@ -481,7 +485,7 @@
     var validityfromr = row.querySelector('[data-field="field13"]').innerText;
     var validitytor = row.querySelector('[data-field="field14"]').innerText;
 
-    console.log("yess 1")
+    console.log("currency 11111",currency)
 
     $.ajax({
       url: `/save/`,
@@ -492,6 +496,7 @@
         polr: polr,
         podr: podr,
         linerr: linerr,
+        currency:currency,
         typer: typer,
         cntrr: cntrr,
         cntrpricer: cntrpricer,
