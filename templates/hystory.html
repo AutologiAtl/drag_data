@@ -408,7 +408,8 @@
         font-weight: bold;
     }    
     .pagination{
-        margin-top: 6px;
+        margin-top: 10px;
+        font-size: xx-small;
     }
     .s-list{
         font-size: 11px;
@@ -435,6 +436,9 @@
     .serch-form{
         margin-left: 18px;
         margin-top: 8px;
+    }
+    .red{
+        color: red;
     }
     </style>
 </head>
@@ -473,7 +477,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <select class="form-control" id="field2" name="pols1"  tabindex="2">
-              <option value="">Select POL*</option>
+              <option value="">Select POL</option>
               {% for l in ports_pol%}
               <option value="{{l.Id}}">{{l.PortNameEng}}</option>
               {% endfor %}
@@ -483,7 +487,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <select class="form-control" id="field2" name="pods1"  tabindex="3">
-              <option value="">Select POD*</option>
+              <option value="">Select POD</option>
               {% for l in ports_pod%}
               <option value="{{l.Id}}">{{l.PortNameEng}}</option>
               {% endfor %}
@@ -493,7 +497,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <select class="form-control" id="field5" name="continers1"  tabindex="5">
-              <option value="">Select CONTAINER*</option>
+              <option value="">Select CONTAINER</option>
               {% for l in container_sizes%}
               <option value="{{l.Id}}">{{l.Size}}</option>
               {% endfor %}
@@ -503,7 +507,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <select class="form-control" id="field1" name="liners1"  tabindex="1" >
-              <option value="">Select LINER*</option>
+              <option value="">Select LINER</option>
               {% for l in liners%}
               <option value="{{l.Id}}">{{l.CompanyNameEng}}</option>
               {% endfor %}
@@ -538,22 +542,26 @@
         </thead>
         <tbody>
             {% for item in data %}
+            {% with item.validityto.date as record_date %} 
             <tr>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.polid.portnameeng }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.podid.portnamejpn }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.shippingcompanyid.companynameeng }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.type }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.shippingcontainersizeid.size }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.oceanfreight }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.thc }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.currencyid.currencysymbol }}    {{ item.sealamount }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.docfee }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.freedays }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.validityfrom|date:"d-m-Y" }}</td>
-                <td class="{% if item.has_expired %}expired{% endif %}">{{ item.validityto|date:"d-m-Y" }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.polid__portnameeng}}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.podid__portnameeng }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.shippingcompanyid__companynameeng }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.type }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.shippingcontainersizeid__size }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.oceanfreight }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.thc }}</td>
+                <td oninput="checkChanges(this)"><table><tr><td  style="width: 10%;" data-field="currency" data-id="{{ item.currencyid__id }}">{{ item.currencyid__currencysymbol }}</td>
+                    <td data-field="field10" style="margin: 2px;width: 90%;" class="editable-cell {% if record_date < current_date %}red{% endif %} chnage-colm not-change  on-edit right-align" oninput="checkChanges(this)">{{ item.sealamount }}</td>
+                  </tr></table></td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.docfee }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.freedays }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.validityfrom|date:"d-m-Y" }}</td>
+                <td class="{% if record_date < current_date %}red{% endif %}">{{ item.validityto|date:"d-m-Y" }}</td>
 
-                <input type="hidden" name="pk" value="{{ item.pk }}">
+                <input type="hidden" name="pk" value="{{ item.id }}">
             </tr>
+            {% endwith %}
             {% endfor %}
         </tbody>
       </table>

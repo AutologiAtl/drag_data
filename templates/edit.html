@@ -9,7 +9,7 @@
   <div class="col-md-2">
     <div class="form-group">
       <select class="form-control" id="field2" name="pols"  tabindex="2">
-        <option value="">Select POL*</option>
+        <option value="">Select POL</option>
         {% for l in ports_pol%}
         <option value="{{l.Id}}">{{l.PortNameEng}}</option>
         {% endfor %}
@@ -19,7 +19,7 @@
   <div class="col-md-2">
     <div class="form-group">
       <select class="form-control" id="field2" name="pods"  tabindex="3">
-        <option value="">Select POD*</option>
+        <option value="">Select POD</option>
         {% for l in ports_pod%}
         <option value="{{l.Id}}">{{l.PortNameEng}}</option>
         {% endfor %}
@@ -29,7 +29,7 @@
   <div class="col-md-2">
     <div class="form-group">
       <select class="form-control" id="field5" name="continers"  tabindex="5">
-        <option value="">Select CONTAINER*</option>
+        <option value="">Select CONTAINER</option>
         {% for l in container_sizes%}
         <option value="{{l.Id}}">{{l.Size}}</option>
         {% endfor %}
@@ -39,7 +39,7 @@
   <div class="col-md-2">
     <div class="form-group">
       <select class="form-control" id="field1" name="liners"  tabindex="1" >
-        <option value="">Select LINER*</option>
+        <option value="">Select LINER</option>
         {% for l in liners%}
         <option value="{{l.Id}}">{{l.CompanyNameEng}}</option>
         {% endfor %}
@@ -77,7 +77,6 @@
 
 </div>
 
-
         <table id="editable-table">
             <thead>
               <tr>
@@ -100,23 +99,24 @@
             </thead>
             <tbody>
                 {% for item in data %}
-                   
+                {% with item.validityto.date as record_date %} 
                 <tr>
-                    <td data-field="field1" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.polid.id }}">{{ item.polid.portnameeng }}</td>
-                    <td data-field="field2" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.podid.id }}">{{ item.podid.portnamejpn }}</td>
-                    <td data-field="field3" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcompanyid.id }}">{{ item.shippingcompanyid.companynameeng }}</td>
-                    <td data-field="field4" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)">{{ item.type }}</td>
-                    <td data-field="field7" class="editable-cell {% if item.has_expired %}expired{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcontainersizeid.id }}">{{ item.shippingcontainersizeid.size }}</td>
-                    <td data-field="field9" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.oceanfreight }}</td>
-                    <td data-field="field5" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.thc }}</td>
-                    <td oninput="checkChanges(this)"><table><tr><td  style="width: 10%;" data-field="currency" data-id="{{ item.currencyid.id }}">{{ item.currencyid.currencysymbol }}</td>
-                      <td data-field="field10" style="margin: 2px;width: 90%;" class="editable-cell chnage-colm not-change {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.sealamount }}</td>
+                    <td data-field="field1" class="editable-cell {% if record_date < current_date %}red{% endif %}  not-edit" oninput="checkChanges(this)" data-id="{{ item.polid__id}}">{{ item.polid__portnameeng}}</td>
+                    <td data-field="field2" class="editable-cell {% if record_date < current_date %}red{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.podid__id }}">{{ item.podid__portnameeng }}</td>
+                    <td data-field="field3" class="editable-cell {% if record_date < current_date %}red{% endif %}  not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcompanyid__id }}">{{ item.shippingcompanyid__companynameeng }}</td>
+                    <td data-field="field4" class="editable-cell {% if record_date < current_date %}red{% endif %} not-edit" oninput="checkChanges(this)">{{ item.type }}</td>
+                    <td data-field="field7" class="editable-cell {% if record_date < current_date %}red{% endif %} not-edit" oninput="checkChanges(this)" data-id="{{ item.shippingcontainersizeid__id }}">{{ item.shippingcontainersizeid__size }}</td>
+                    <td data-field="field9" class="editable-cell {% if record_date < current_date %}red{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.oceanfreight }}</td>
+                    <td data-field="field5" class="editable-cell {% if record_date < current_date %}red{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.thc }}</td>
+                    <td oninput="checkChanges(this)"><table><tr><td  style="width: 10%;" data-field="currency" data-id="{{ item.currencyid__id }}">{{ item.currencyid__currencysymbol }}</td>
+                      <td data-field="field10" style="margin: 2px;width: 90%;" class="editable-cell {% if record_date < current_date %}red{% endif %} chnage-colm not-change  on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.sealamount }}</td>
                     </tr></table></td>
                      
-                    <td data-field="field11" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.docfee }}</td>
-                    <td data-field="field12" class="editable-cell {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true">{{ item.freedays }}</td>
-                    <td data-field="field13" class="editable-cell editable-cell1 {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityfrom|date:"d-m-Y" }}</td>
-                    <td data-field="field14" class="editable-cell editable-cell1 {% if item.has_expired %}expired{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityto|date:"d-m-Y" }}</td>
+                    <td data-field="field11" class="editable-cell {% if record_date < current_date %}red{% endif %} on-edit right-align" oninput="checkChanges(this)" contenteditable="true">{{ item.docfee }}</td>
+                    <td data-field="field12" class="editable-cell {% if record_date < current_date %}red{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true">{{ item.freedays }}</td>
+                 
+                        <td data-field="field13" class="editable-cell editable-cell1 {% if record_date < current_date %}red{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityfrom|date:"d-m-Y" }}</td>
+                    <td data-field="field14" class="editable-cell editable-cell1 {% if record_date < current_date %}red{% endif %} on-edit middle-align" oninput="checkChanges(this)" contenteditable="true" style="padding-left: 6px;padding-right: 0px;">{{ item.validityto|date:"d-m-Y" }}</td>
                     <td class="no-border">
                       <button class="action-btn save-btn" id="save-btn" style="display: none;background-color: white;" onclick="enableEdit(this)" data-toggle="tooltip" data-placement="top" title="Add"><i class="fa fa-plus"></i></button>
 
@@ -124,13 +124,14 @@
                       
                       <button class="action-btn edit-btn" style="display: none; color: green;background-color: white;" onclick="editData(this)" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil"></i></button>
                     </td>      
-                    <input type="hidden" name="pk" value="{{ item.pk }}">
+                    <input type="hidden" name="pk" value="{{ item.id }}">
                 </tr>
+            {% endwith %}
                 {% endfor %}
                 
             </tbody>
           </table>
-          <nav aria-label="Page navigation example" style="margin-top: 8px;">
+          <nav aria-label="Page navigation example" style="margin-top: 5px;">
             <ul class="pagination justify-content-center">
                 {% if data.has_previous %}
                     <li class="page-item">

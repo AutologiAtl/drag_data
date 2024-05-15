@@ -39,9 +39,6 @@ def move_customer(request):
         category_id = request.POST.get('category_id')
         print("customer_id",customer_id)
         print("category_id",category_id)
-
-
-
         try:
             customer = Customercompany.objects.get(id=customer_id)
             get_cat = Customercategory.objects.get(id = int(category_id))
@@ -94,8 +91,10 @@ def Search(request):
 
 
 def table_view(request):
+    start_time = time.time()  # Record start time
     context = {}
     try:
+        f_time = time.time()  # Record start time
         # Check if data exists in cache
         if 'table_data' in cache:
             data = cache.get('table_data')
@@ -127,7 +126,6 @@ def table_view(request):
             container_sizes = cursor.fetchall()
             context['container_sizes'] = [{'Size': row[0], 'Id': row[1]} for row in container_sizes]
 
-
             # Fetching Currency Descriptions
             fetch_currency_query = "SELECT CurrencyDesc, Id FROM CurrencyMst"
             cursor.execute(fetch_currency_query)
@@ -137,17 +135,18 @@ def table_view(request):
             # Close the connection
             conn.close()
             # Store data in cache for future requests
-            a = cache.set('table_data', context, timeout=3600) # Cache for 1 hour
+            a = cache.set('table_data', context, timeout=3600) # Cache for 1 hour   
+            fl_time = time.time()  # Record start time 
+            print("fl time",fl_time - f_time)
 
 
         pol = request.POST.get('pols')
         pod = request.POST.get('pods')
         continer = request.POST.get('continers')
         liner = request.POST.get('liners')
-
+        ft_time = time.time()
         if pol or pod or continer or liner:
             latest_records = Freightrate.objects.all()
-            print("pol pod",pol)
             if pol:
                 pol = Port.objects.get(id = pol)
             if pod:
@@ -167,45 +166,69 @@ def table_view(request):
                 latest_records = latest_records.filter(shippingcompanyid=liner)    
 
         else:
-            print("this is run")
             latest_records_subquery = Freightrate.objects.filter(
-                polid=OuterRef('polid'),podid=OuterRef('podid'),shippingcompanyid=OuterRef('shippingcompanyid'),type=OuterRef('type'),
-                shippingcontainersizeid=OuterRef('shippingcontainersizeid'),
+                polid=OuterRef('polid'),
+                podid=OuterRef('podid'),
+                shippingcompanyid=OuterRef('shippingcompanyid'),
+                type=OuterRef('type'),
+                shippingcontainersizeid=OuterRef('shippingcontainersizeid')
             ).order_by('-id').values('id')[:1]
 
-            print("yess running")
-
-
-            # Query to retrieve the latest record for each unique name
-            # latest_records = Freightrate.objects.filter(
-            #     id__in=Subquery(latest_records_subquery)
-            # )
-
             latest_records = Freightrate.objects.filter(
-            id__in=Subquery(latest_records_subquery)
-        )    
+                id__in=Subquery(latest_records_subquery)
+            )
+        latest_records = latest_records.order_by('-id').values(
+                                            'id',
+                                            'polid__id',
+                                            'polid__portnameeng',
+                                            'podid__id',
+                                            'podid__portnameeng',
+                                            'shippingcompanyid__id',
+                                            'shippingcompanyid__companynameeng',
+                                            'shippingcontainersizeid__id',
+                                            'shippingcontainersizeid__size',
+                                            'currencyid__id',
+                                            'currencyid__currencysymbol',
+                                            'sealamount',
+                                            'oceanfreight',
+                                            'docfee',
+                                            'thc',
+                                            'type',
+                                            'freedays',
+                                            'validityfrom',
+                                            'validityto',
+                                            'createddatetimeutc',
+                                            'createdby',
+                                            'updateddatetimeutc',
+                                            'updatedby'
+                                        )
 
+        flt_time = time.time()
+        floop_time = time.time()
         current_date = date.today()
-        for record in latest_records:
-            print("record check",record)
-            record_date = record.validityto.date()
-            print("record_date",record_date)
-            print("current_date",current_date)
-            record.has_expired = record_date < current_date
+        # for record in latest_records:
+        #     print("check my let re",record)
+        #     record_date = record.get("validityto").date()
+        #     record.has_expired = record_date < current_date
+        # fltoop_time = time.time()   
+        # print("fltoop time",fltoop_time - floop_time) 
 
+        context['current_date'] = current_date
         try:
             paginator = Paginator(latest_records, 10)
             page = request.GET.get('page')
             data = paginator.get_page(page)
-            context['data'] = data
+            context['data'] = data            
         except PageNotAnInteger:
             data = paginator.page(1)
             context['data'] = data
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
             context['data'] = data
+        end_time = time.time()  # Record start time
+        total_time = end_time - start_time
+        print("total proceed time",total_time) 
         return render(request, 'edit.html', context)
-
     except pyodbc.Error as e:
         print(f"Error connecting to SQL Server: {e}")
 
@@ -478,27 +501,35 @@ def list_hystory(request):
             print("this is run")
             latest_records = Freightrate.objects.all()
 
-            print("yess running")
-
+        latest_records = latest_records.order_by('-id').values(
+                                        'id',
+                                        'polid__id',
+                                        'polid__portnameeng',
+                                        'podid__id',
+                                        'podid__portnameeng',
+                                        'shippingcompanyid__id',
+                                        'shippingcompanyid__companynameeng',
+                                        'shippingcontainersizeid__id',
+                                        'shippingcontainersizeid__size',
+                                        'currencyid__id',
+                                        'currencyid__currencysymbol',
+                                        'sealamount',
+                                        'oceanfreight',
+                                        'docfee',
+                                        'thc',
+                                        'type',
+                                        'freedays',
+                                        'validityfrom',
+                                        'validityto',
+                                        'createddatetimeutc',
+                                        'createdby',
+                                        'updateddatetimeutc',
+                                        'updatedby'
+                                    )
         current_date = date.today()
-        for record in latest_records:
-            print("record check",record)
-            record_date = record.validityto.date()
-            record.has_expired = record_date < current_date
+        context['current_date'] = current_date
 
         try:
-            if 'table_data2' in cache:
-                start_time = time.time()  # Record start time
-                data = cache.get('table_data2')
-                context = data
-                print("this is running")
-                end_time = time.time()    # Record end time
-                execution_time = end_time - start_time
-                print("Execution time table2:", execution_time, "seconds")
-            else:
-                print("this is running else")
-                a = cache.set('table_data2', context, timeout=3600) # Cache for 1 hour
-
             paginator = Paginator(latest_records, 10)
             page = request.GET.get('page')
             data = paginator.get_page(page)
@@ -527,7 +558,6 @@ def runquery(request):
     end_time = time.time()    # Record end time
     execution_time = end_time - start_time
     print("Execution time:", execution_time, "seconds")
-    
     return redirect("/po")
 
 
